@@ -4,8 +4,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const notFound = require('./middlewares/not-found');
 const app = express();
+
+/**
+ * Mongodb connection
+ */
+require('./services/mongodb')();
 
 /**
  * Constants
@@ -24,6 +30,8 @@ app.use(cors());
  * App routes
  */
 app.use(API_URL, require('./routes/welcome'));
+app.use(`${API_URL}/clients`, require('./routes/clients'));
+app.use(`${API_URL}/providers`, require('./routes/providers'));
 app.use(notFound());
 
 module.exports = app;
