@@ -26,9 +26,263 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/Message"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+  /clients:
+    post:
+      summary: "Create new client"
+      description: "Create new client"
+      operationId: "createClient"
+      produces:
+      - "application/json"
+      responses:
+        201:
+          description: "successful opration"
+          schema:
+            $ref: "#/definitions/Client"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+    get:
+      summary: "Find clients"
+      description: "Find clients"
+      operationId: "findClients"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Client"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+  /clients/{id}:
+    get:
+      summary: "Find client by ID"
+      description: "Find client by ID"
+      operationId: "findClient"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Client ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Client"
+        404:
+          description: "not found"
+          schema:
+            $ref: "#/definitions/Message"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+    put:
+      summary: "Update client by ID"
+      description: "Update client by ID"
+      operationId: "updateClient"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Client ID"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Client data"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Client"
+        404:
+          description: "not found"
+          schema:
+            $ref: "#/definitions/Message"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+    delete:
+      summary: "Delete client by ID"
+      description: "Delete client by ID"
+      operationId: "deleteClient"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Client ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Client"
+        404:
+          description: "not found"
+          schema:
+            $ref: "#/definitions/Message"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+  /providers:
+    post:
+      summary: "Create new provider"
+      description: "Create new provider"
+      operationId: "createProvider"
+      produces:
+      - "application/json"
+      responses:
+        201:
+          description: "successful opration"
+          schema:
+            $ref: "#/definitions/Provider"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+    get:
+      summary: "Find providers"
+      description: "Find providers"
+      operationId: "findProviders"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Provider"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+  /providers/{id}:
+    get:
+      summary: "Find provider by ID"
+      description: "Find provider by ID"
+      operationId: "findProvider"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Provider ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Provider"
+        404:
+          description: "not found"
+          schema:
+            $ref: "#/definitions/Message"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+    put:
+      summary: "Update provider by ID"
+      description: "Update provider by ID"
+      operationId: "updateProvider"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Provider ID"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Provider data"
+        required: true
+        schema:
+          $ref: "#/definitions/Provider"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Provider"
+        404:
+          description: "not found"
+          schema:
+            $ref: "#/definitions/Message"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
+    delete:
+      summary: "Delete provider by ID"
+      description: "Delete provider by ID"
+      operationId: "deleteProvider"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Provider ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Provider"
+        404:
+          description: "not found"
+          schema:
+            $ref: "#/definitions/Message"
+        500:
+          description: "server error"
+          schema:
+            $ref: "#/definitions/Message"
 definitions:
   Message:
     type: "object"
     properties:
       message:
+        type: "string"
+  Client:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      providers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Provider"
+  Provider:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
         type: "string"

@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
     let data = req.body;
     let provider = new Provider(data);
     await provider.save();
-    res.status(200).send({ message: 'Created', data: { provider } });
+    res.status(201).send(provider);
   } catch (error) {
     res.status(500).send({ message: 'Server error' });
   }
@@ -26,11 +26,15 @@ router.get('/:id?', async (req, res) => {
     if (req.params.id) {
       let id = req.params.id;
       let provider = await Provider.findById(id);
-      res.status(200).send({ message: 'Fetched', data: { provider } });
+      if (provider) {
+        res.status(200).send(provider);
+      } else {
+        res.status(404).send({ message: 'Not found' });
+      }
     } else {
       let data = req.query;
       let providers = await Provider.find(data);
-      res.status(200).send({ message: 'Fetched', data: { providers } });
+      res.status(200).send(providers);
     }
   } catch (error) {
     res.status(500).send({ message: 'Server error' });
@@ -46,7 +50,11 @@ router.put('/:id', async (req, res) => {
     let data = req.body;
     let options = { new: true };
     let provider = await Provider.findByIdAndUpdate(id, { $set: data }, options);
-    res.status(200).send({ message: 'Updated', data: { provider } });
+    if (provider) {
+      res.status(200).send(provider);
+    } else {
+      res.status(404).send({ message: 'Not found' });
+    }
   } catch (error) {
     res.status(500).send({ message: 'Server error' });
   }
@@ -58,8 +66,12 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     let id = req.params.id;
-    await Provider.findByIdAndDelete(id);
-    res.status(200).send({ message: 'Deleted' });
+    let provider = await Provider.findByIdAndDelete(id);
+    if (provider) {
+      res.status(200).send(provider);
+    } else {
+      res.status(404).send({ message: 'Not found' });
+    }
   } catch (error) {
     res.status(500).send({ message: 'Server error' });
   }
