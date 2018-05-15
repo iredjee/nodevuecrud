@@ -3,13 +3,10 @@ info:
   description: "API"
   version: "1.0.0"
   title: "API"
-  termsOfService: "http://api.io/terms/"
-  contact:
-    email: "dev@api.io"
   license:
     name: "MIT"
     url: "https://opensource.org/licenses/MIT"
-host: "api.io"
+host: "localhost"
 basePath: "/api/v1"
 schemes:
 - "http"
