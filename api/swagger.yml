@@ -42,6 +42,10 @@ paths:
           description: "successful opration"
           schema:
             $ref: "#/definitions/Client"
+        409:
+          description: "conflict"
+          schema:
+            $ref: "#/definitions/Message"
         500:
           description: "server error"
           schema:
@@ -157,6 +161,10 @@ paths:
           description: "successful opration"
           schema:
             $ref: "#/definitions/Provider"
+        409:
+          description: "conflict"
+          schema:
+            $ref: "#/definitions/Message"
         500:
           description: "server error"
           schema:

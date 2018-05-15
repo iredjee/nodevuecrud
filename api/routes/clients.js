@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const joi = require('joi');
 const router = new express.Router();
 const Client = require('../models/client');
 
@@ -8,8 +9,23 @@ const Client = require('../models/client');
  * Create
  */
 router.post('/', async (req, res) => {
+  // Validation
+  const schema = joi.object().keys({
+    name: joi.string().required(),
+    email: joi.string().email().required(),
+    phone: joi.string().regex(/^[\+]?[0-9]+$/).required(),
+    providers: joi.array().items(joi.string())
+  });
+  let { error, value:data } = joi.validate(req.body, schema);
+  if (error) {
+    return res.status(400).send({ message: error.details[0].message });
+  }
+
   try {
-    let data = req.body;
+    let existedClient = await Client.findOne({ email: data.email });
+    if (existedClient) {
+      return res.status(409).send({ message: 'Email already registered' });
+    }
     let client = new Client(data);
     await client.save();
     res.status(201).send(client);
@@ -45,11 +61,21 @@ router.get('/:id?', async (req, res) => {
  * Update
  */
 router.put('/:id', async (req, res) => {
+  // Validation
+  const schema = joi.object().keys({
+    name: joi.string().required(),
+    email: joi.string().email().required(),
+    phone: joi.string().regex(/^[\+]?[0-9]+$/).required(),
+    providers: joi.array().items(joi.string())
+  });
+  let { error, value:data } = joi.validate(req.body, schema);
+  if (error) {
+    return res.status(400).send({ message: error.details[0].message });
+  }
+
   try {
     let id = req.params.id;
-    let data = req.body;
-    let options = { new: true };
-    let client = await Client.findByIdAndUpdate(id, { $set: data }, options);
+    let client = await Client.findByIdAndUpdate(id, { $set: data }, { new: true });
     if (client) {
       res.status(200).send(client);
     } else {
