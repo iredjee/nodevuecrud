@@ -69,6 +69,10 @@ router.put('/:id', async (req, res) => {
 
   try {
     let id = req.params.id;
+    let existedProvider = await Provider.findOne({ name: data.name });
+    if (existedProvider && existedProvider.id !== id) {
+      return res.status(409).send({ message: 'Name already exists' });
+    }
     let provider = await Provider.findByIdAndUpdate(id, { $set: data }, { new: true });
     if (provider) {
       res.status(200).send(provider);

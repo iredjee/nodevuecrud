@@ -75,6 +75,10 @@ router.put('/:id', async (req, res) => {
 
   try {
     let id = req.params.id;
+    let existedClient = await Client.findOne({ email: data.email });
+    if (existedClient && existedClient.id !== id) {
+      return res.status(409).send({ message: 'Email already registered' });
+    }
     let client = await Client.findByIdAndUpdate(id, { $set: data }, { new: true });
     if (client) {
       res.status(200).send(client);
