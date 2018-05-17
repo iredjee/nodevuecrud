@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Load env variables
+ */
+require('./services/env').load();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
