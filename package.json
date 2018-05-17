@@ -11,9 +11,10 @@
     "test": "npm run test:api",
     "test:api": "npm run test:api:integration",
     "test:api:integration": "cross-env NODE_ENV=test nyc mocha --timeout=120000 --exit api/tests/integration/*.test.js",
-    "clean": "npm run api:clean",
+    "clean": "npm run api:clean && npm run coverage:clean",
     "api:docs": "spectacle -d ./api/swagger.yml -t ./api/docs",
-    "api:clean": "rm -rf ./api/docs"
+    "api:clean": "rm -rf api/docs",
+    "coverage:clean": "rm -rf .nyc_output"
   },
   "engines": {
     "node": ">=8.9"
