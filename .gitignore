@@ -3,3 +3,5 @@ node_modules
 api/docs
 api/config/**
 !api/config/example.json
+
+.nyc_output
