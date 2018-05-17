@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const logger = require('./logger');
 
 module.exports = () => {
   // MongoDB connection settings
@@ -8,11 +9,11 @@ module.exports = () => {
 
   // MongoDB connection OK
   mongoose.connection.on('connected', () => {
-    console.log('Mongodb connection success');
+    logger.info('Mongodb connection success');
   });
 
   // MongoDB connection failed
   mongoose.connection.on('error', () => {
-    console.log('Mongodb connection failed');
+    logger.error('Mongodb connection failed');
   });
 };
