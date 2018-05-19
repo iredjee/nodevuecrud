@@ -5,6 +5,7 @@
  */
 require('./services/env').load();
 
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -34,7 +35,7 @@ app.use(cors());
 /**
  * App routes
  */
-app.use(API_URL, require('./routes/welcome'));
+app.use('/', express.static(path.resolve(__dirname, '..', 'client', 'dist')));
 app.use(`${API_URL}/clients`, require('./routes/clients'));
 app.use(`${API_URL}/providers`, require('./routes/providers'));
 app.use(notFound());
