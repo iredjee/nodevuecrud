@@ -9,22 +9,15 @@ let customFormat = printf(info => {
 });
 
 // Define level depends on environment
-let level;
-if (process.env.NODE_ENV === 'dev') {
-  level = 'debug';
-}
-if (process.env.NODE_ENV === 'prod') {
-  level = 'info';
-}
-if (process.env.NODE_ENV === 'test') {
-  level = 'error';
-}
+let level = 'debug';
+let silent = process.env.NODE_ENV === 'test';
 
 /**
  * Logger
  */
 const logger = winston.createLogger({
   level,
+  silent,
   format: combine(timestamp(), customFormat),
   transports: [new winston.transports.Console()]
 });
