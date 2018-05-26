@@ -9,7 +9,8 @@ const Schema = mongoose.Schema;
 const providerSchema = new Schema({
   name: String
 }, {
-  versionKey: false
+  versionKey: false,
+  timestamps: true
 });
 
 /**
