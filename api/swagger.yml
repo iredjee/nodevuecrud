@@ -18,6 +18,13 @@ paths:
       operationId: "createClient"
       produces:
       - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Client data"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
       responses:
         201:
           description: "successful opration"
@@ -86,8 +93,8 @@ paths:
         description: "Client ID"
         required: true
         type: "string"
-      - in: "body"
-        name: "body"
+      - name: "body"
+        in: "body"
         description: "Client data"
         required: true
         schema:
@@ -137,6 +144,13 @@ paths:
       operationId: "createProvider"
       produces:
       - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Provider data"
+        required: true
+        schema:
+          $ref: "#/definitions/Provider"
       responses:
         201:
           description: "successful opration"
@@ -205,8 +219,8 @@ paths:
         description: "Provider ID"
         required: true
         type: "string"
-      - in: "body"
-        name: "body"
+      - name: "body"
+        in: "body"
         description: "Provider data"
         required: true
         schema:

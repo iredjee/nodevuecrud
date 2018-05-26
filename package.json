@@ -29,13 +29,15 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "bootstrap-vue": "^2.0.0-rc.11",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "helmet": "^3.12.0",
     "joi": "^13.3.0",
     "mongoose": "^5.1.1",
     "vue": "^2.5.16",
-    "winston": "^2.4.2"
+    "vue-router": "^3.0.1",
+    "winston": "^3.0.0-rc5"
   },
   "devDependencies": {
     "chai": "^4.1.2",
