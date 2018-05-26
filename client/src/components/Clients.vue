@@ -35,12 +35,13 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 #clients {
   margin-top: 10%;
-}
-#clients header {
-  padding: 10px;
-  background-color: #f4f4ff;
+
+  header {
+    padding: 10px;
+    background-color: #f4f4ff;
+  }
 }
 </style>

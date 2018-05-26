@@ -49,6 +49,7 @@
     "mocha": "^5.1.1",
     "nodemon": "^1.17.4",
     "nyc": "^11.8.0",
+    "sass-loader": "^7.0.1",
     "spectacle-docs": "^1.0.3",
     "style-loader": "^0.21.0",
     "vue-loader": "^15.1.0",
