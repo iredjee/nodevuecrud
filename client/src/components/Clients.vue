@@ -1,7 +1,15 @@
 <template lang="html">
   <div id="clients">
     <b-container>
-      <b-table striped hover responsive :items="clients" :fields="fields"></b-table>
+      <header class="d-flex justify-content-between align-items-center rounded-top">
+        <div>
+          <h2 class="title text-info">Clients</h2>
+        </div>
+        <div>
+          <b-button id="newClient" variant="outline-secondary">New client</b-button>
+        </div>
+      </header>
+      <b-table responsive :items="clients" :fields="fields"></b-table>
     </b-container>
   </div>
 </template>
@@ -14,7 +22,8 @@ export default {
         { key: 'name', sortable: true },
         { key: 'email', sortable: true },
         { key: 'phone', sortable: false },
-        { key: 'providers', sortable: false }
+        { key: 'providers', sortable: false },
+        { key: '' }
       ],
       clients: [
         { name: 'Name1', email: 'Email3', phone: 'Phone', providers: '' },
@@ -27,4 +36,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
+#clients {
+  margin-top: 10%;
+}
+#clients header {
+  padding: 10px;
+  background-color: #f4f4ff;
+}
 </style>
