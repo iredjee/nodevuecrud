@@ -38,7 +38,7 @@
     </b-container>
 
     <!-- Modal -->
-    <b-modal id="modalClient" ref="modalClient" size="lg" :title="title" :ok-title="okTitle" @ok.prevent="saveClient" @cancel.prevent="cancelClient" :visible="true">
+    <b-modal id="modalClient" ref="modalClient" size="lg" :title="title" :ok-title="okTitle" @ok.prevent="saveClient" @cancel.prevent="cancelClient" :visible="false">
       <b-form-group>
         <b-form-input type="text" v-model="currentClient.name" required placeholder="Name"></b-form-input>
       </b-form-group>
