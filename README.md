@@ -32,10 +32,16 @@ For e.g. to run app in `dev` environment with local mongodb installation create 
 - `npm start` will start app in development mode
 - `npm run start:prod` will start app in production mode
 
+Open browser at `http://localhost:3000`
+
+**Note**: Before running app be sure to have appropriate configuration file for dev/prod environment
+
 ## Test
 - `npm test` for all kind of tests
 - `npm run test:api` for api tests
 - `npm run test:api:integration` for api integration tests
+
+**Note:** Before running tests be sure to have appropriate configuration file for `test` environment (*api/config/test.json*)
 
 ## Clean
 - `npm run clean` to clean project from generated files
