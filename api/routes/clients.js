@@ -62,9 +62,6 @@ router.get('/:id?', async (req, res) => {
  */
 router.put('/:id', async (req, res) => {
   // Validation
-  delete req.body._id;
-  delete req.body.createdAt;
-  delete req.body.updatedAt;
   const schema = joi.object().keys({
     name: joi.string(),
     email: joi.string().email(),

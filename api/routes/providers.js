@@ -36,9 +36,6 @@ router.post('/', async (req, res) => {
  */
 router.get('/:id?', async (req, res) => {
   try {
-    delete req.body._id;
-    delete req.body.createdAt;
-    delete req.body.updatedAt;
     if (req.params.id) {
       let id = req.params.id;
       let provider = await Provider.findById(id);
