@@ -13,7 +13,8 @@ const clientSchema = new Schema({
   phone: String,
   providers: [{ type: Schema.Types.ObjectId, ref: 'Provider' }]
 }, {
-  versionKey: false
+  versionKey: false,
+  timestamps: true
 });
 
 /**
