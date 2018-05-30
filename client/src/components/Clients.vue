@@ -14,7 +14,8 @@
       </header>
 
       <!-- Table -->
-      <b-table class="clients-table" responsive :items="clients" :fields="fields">
+      <div v-if="loadingClients">Loading...</div>
+      <b-table v-if="!loadingClients" class="clients-table" responsive :items="clients" :fields="fields">
         <template slot="options" slot-scope="data">
           <div class="d-flex justify-content-end align-items-center options">
             <b-button class="options-btn options-edit" variant="warning" size="sm" @click="editClient(data.item)">
@@ -29,7 +30,7 @@
     </b-container>
 
     <!-- Modal -->
-    <b-modal id="modalClient" ref="modalClient" size="lg" :title="title" ok-title="Add client" @ok.prevent="saveClient" @cancel.prevent="cancelClient" :visible="true">
+    <b-modal id="modalClient" ref="modalClient" size="lg" :title="title" :ok-title="okTitle" @ok.prevent="saveClient" @cancel.prevent="cancelClient" :visible="false">
       <b-form-group>
         <b-form-input type="text" v-model="currentClient.name" required placeholder="Name"></b-form-input>
       </b-form-group>
@@ -52,7 +53,8 @@
       <b-form-group>
         <b-row>
           <b-col md="8">
-            <b-list-group>
+            <div v-if="loadingProviders">Loading...</div>
+            <b-list-group v-if="!loadingProviders">
               <b-list-group-item v-for="provider in providers" :key="provider.id">
                 {{ provider.name }}
               </b-list-group-item>
@@ -75,50 +77,103 @@ export default {
         { key: 'providers', sortable: false },
         { key: 'options', label: '' }
       ],
-      clients: [
-        { id: 1, name: 'Name1', email: 'Email3', phone: 'Phone', providers: '' },
-        { id: 2, name: 'Name2', email: 'Email2', phone: 'Phone', providers: '' },
-        { id: 3, name: 'Name3', email: 'Email1', phone: 'Phone', providers: '' }
-      ],
-      providers: [
-        { id: 1, name: 'PName1' },
-        { id: 2, name: 'PName2' },
-        { id: 3, name: 'PName3' },
-        { id: 4, name: 'PName4' },
-        { id: 5, name: 'PName5' }
-      ],
+      clients: [],
+      providers: [],
+      loadingClients: true,
+      loadingProviders: true,
       currentClient: {},
       provider: {}
     }
   },
+  created: function() {
+    this.loadClients();
+    this.loadProviders();
+  },
   computed: {
     title() {
-      return this.currentClient.id ? 'Edit client': 'New client';
+      return this.currentClient._id ? 'Edit client' : 'New client';
+    },
+    okTitle() {
+      return this.currentClient._id ? 'Update client' : 'Add client';
     }
   },
   methods: {
+    async loadClients() {
+      try {
+        this.loadingClients = true;
+        let result = await this.$http.get('/clients');
+        this.clients = result.data;
+        this.loadingClients = false;
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'Can\'t fetch clients'
+        });
+      }
+    },
+    async loadProviders() {
+      try {
+        this.loadingProviders = true;
+        let result = await this.$http.get('/providers');
+        this.providers = result.data;
+        this.loadingProviders = false;
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'Can\'t fetch providers'
+        });
+      }
+    },
     addClient() {
-      console.log('Add client');
       this.currentClient = {};
       this.showModal();
     },
     editClient(client) {
-      console.log('Edit client');
       this.currentClient = client;
       this.showModal();
     },
-    removeClient(client) {
-      console.log('Remove client');
+    async removeClient(client) {
+      try {
+        await this.$http.delete(`/clients/${client._id}`);
+        this.clients.splice(this.clients.indexOf(client));
+        this.$notify({
+          type: 'success',
+          text: 'Client deleted'
+        });
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'Can\'t delete client'
+        });
+      }
     },
-    saveClient(e) {
-      console.log('Save client');
-      // TODO: Save
-      this.hideModal();
-      this.reset();
+    async saveClient(e) {
+      try {
+        if (!this.currentClient._id) {
+          let result = await this.$http.post('/clients', this.currentClient);
+          let client = result.data;
+          this.$notify({
+            type: 'success',
+            text: 'Client created'
+          });
+          this.clients.push(client);
+        } else {
+          await this.$http.put(`/clients/${this.currentClient._id}`, this.currentClient);
+          this.$notify({
+            type: 'success',
+            text: 'Client updated'
+          });
+        }
+        this.hideModal();
+        this.reset();
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'Can\'t save client'
+        });
+      }
     },
     cancelClient() {
-      console.log('Cancel client');
-      // TODO: Cancel
       this.hideModal();
       this.reset();
     },
