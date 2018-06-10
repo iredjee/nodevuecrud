@@ -83,6 +83,7 @@ router.put('/:id', async (req, res) => {
       }
     }
     let client = await Client.findByIdAndUpdate(id, { $set: data }, { new: true });
+    await Client.populate(client, 'providers');
     res.status(200).send(client);
   } catch (error) {
     res.status(500).send({ message: 'Server error' });
