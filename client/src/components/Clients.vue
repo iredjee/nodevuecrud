@@ -19,9 +19,7 @@
         <template slot="providers" slot-scope="data">
           <template v-for="provider in data.item.providers">
             {{ provider.name }}
-            <template v-if="data.item.providers.indexOf(provider) !== data.item.providers.length - 1">
-              <br>
-            </template>
+            <template v-if="data.item.providers.indexOf(provider) !== data.item.providers.length - 1">,</template>
           </template>
         </template>
         <template slot="options" slot-scope="data">
@@ -178,7 +176,7 @@ export default {
     async removeClient(client) {
       try {
         await this.$http.delete(`/clients/${client._id}`);
-        this.clients.splice(this.clients.indexOf(client));
+        this.clients.splice(this.clients.indexOf(client), 1);
         this.$notify({
           type: 'success',
           text: 'Client deleted'
@@ -197,20 +195,22 @@ export default {
           name: this.currentClient.name,
           email: this.currentClient.email,
           phone: this.currentClient.phone,
-          providers: checkedProviders.map(p => p._id)
+          providers: checkedProviders
         };
         if (!this.currentClient._id) {
           let result = await this.$http.post('/clients', currentClient);
           let client = result.data;
-          client.providers = checkedProviders;
           this.clients.push(client);
           this.$notify({
             type: 'success',
             text: 'Client created'
           });
         } else {
-          await this.$http.put(`/clients/${this.currentClient._id}`, currentClient);
-          this.currentClient.providers = checkedProviders;
+          let result = await this.$http.put(`/clients/${this.currentClient._id}`, currentClient);
+          let client = result.data;
+          let founded = this.clients.find(c => c._id === client._id);
+          let index = this.clients.indexOf(founded);
+          this.$set(this.clients, index, client);
           this.$notify({
             type: 'success',
             text: 'Client updated'
@@ -290,7 +290,7 @@ export default {
     async removeProvider(provider) {
       try {
         await this.$http.delete(`/providers/${provider._id}`);
-        this.providers.splice(this.providers.indexOf(provider));
+        this.providers.splice(this.providers.indexOf(provider), 1);
         this.$notify({
           type: 'success',
           text: 'Provider deleted'
