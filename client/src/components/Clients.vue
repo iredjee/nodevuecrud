@@ -264,9 +264,17 @@ export default {
     },
     async saveProvider(_provider) {
       try {
-        let provider = { name: _provider.name };
-        await this.$http.put(`/providers/${_provider._id}`, provider);
+        let providerData = { name: _provider.name };
+        let result = await this.$http.put(`/providers/${_provider._id}`, providerData);
+        let provider = result.data;
         _provider.editor = false;
+        for (let c of this.clients) {
+          let founded = c.providers.find(p => p._id === provider._id);
+          let index = c.providers.indexOf(founded);
+          if (index !== -1) {
+            c.providers.splice(index, 1, provider);
+          }
+        }
         this.$notify({
           type: 'success',
           text: 'Provider updated'
@@ -291,6 +299,13 @@ export default {
       try {
         await this.$http.delete(`/providers/${provider._id}`);
         this.providers.splice(this.providers.indexOf(provider), 1);
+        for (let c of this.clients) {
+          let founded = c.providers.find(p => p._id === provider._id);
+          let index = c.providers.indexOf(founded);
+          if (index !== -1) {
+            c.providers.splice(index, 1);
+          }
+        }
         this.$notify({
           type: 'success',
           text: 'Provider deleted'
