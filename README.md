@@ -30,7 +30,7 @@ For e.g. to run app in `dev` environment with local mongodb installation create 
 
 ## Build
 - `npm run build` will build app for development
-- `npm run build:prod` will start app for production
+- `npm run build:prod` will build app for production
 
 ## Run
 - `npm start` will start app in development mode
