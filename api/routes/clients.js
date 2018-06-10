@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
     name: joi.string().required(),
     email: joi.string().email().required(),
     phone: joi.string().regex(/^[\+]?[0-9]+$/).required(),
-    providers: joi.array().items(joi.string())
+    providers: joi.array().items(joi.object())
   });
   let { error, value:data } = joi.validate(req.body, schema);
   if (error) {
@@ -28,6 +28,7 @@ router.post('/', async (req, res) => {
     }
     let client = new Client(data);
     await client.save();
+    await Client.populate(client, 'providers');
     res.status(201).send(client);
   } catch (error) {
     res.status(500).send({ message: 'Server error' });
@@ -66,7 +67,7 @@ router.put('/:id', async (req, res) => {
     name: joi.string(),
     email: joi.string().email(),
     phone: joi.string().regex(/^[\+]?[0-9]+$/),
-    providers: joi.array().items(joi.string())
+    providers: joi.array().items(joi.object())
   });
   let { error, value:data } = joi.validate(req.body, schema);
   if (error) {
