@@ -17,6 +17,7 @@
     "test:api": "npm run test:api:integration",
     "test:api:integration": "cross-env NODE_ENV=test nyc mocha --timeout=120000 --exit api/tests/integration/*.test.js",
     "clean": "npm run api:clean && npm run coverage:clean && npm run build:clean",
+    "api:server": "node api/swagger",
     "api:docs": "spectacle -d ./api/swagger.yml -t ./api/docs",
     "api:clean": "rm -rf api/docs",
     "coverage:clean": "rm -rf .nyc_output"
@@ -54,6 +55,7 @@
     "sass-loader": "^7.0.1",
     "spectacle-docs": "^1.0.3",
     "style-loader": "^0.21.0",
+    "swagger-express-middleware": "^1.0.0-alpha.12",
     "vue-loader": "^15.1.0",
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.8.3",

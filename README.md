@@ -50,6 +50,12 @@ Open browser at `http://localhost:3000`
 ## Clean
 - `npm run clean` to clean project from generated files
 
+## API Server
+To start swagger server with mocked API
+- `npm run api:server`
+
+Open browser at http://localhost:3003
+
 ## API Documentation
 HTTP API Endpoints described in **api/swagger.yml** file
 - `npm run api:docs`
